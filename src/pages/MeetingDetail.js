@@ -65,6 +65,7 @@ const MeetingDetail = () => {
             }
         });
 
+
         // 서버에서 answer 수신 시 처리
         socketRef.current.on('answer', async ({ answer, userId }) => {
             console.log(`Received answer from ${userId} in room: ${meetingId}`);
@@ -91,12 +92,13 @@ const MeetingDetail = () => {
             }
         });
 
+
         // 채팅 메시지 수신 시 처리
         socketRef.current.on("msg", (data) => {
             setMessages(prevMessages => [...prevMessages, { id: data.id, message: data.message }]);
         });
-
-        // 사용자의 미디어 스트림 가져오기
+        
+               // 사용자의 미디어 스트림 가져오기
         getMedia().then(() => {
             console.log("Media stream obtained.");
         }).catch((error) => {
@@ -122,7 +124,7 @@ const MeetingDetail = () => {
             console.error("미디어 장치 접근 중 오류 발생", error);
         }
     };
-
+    
     // 피어 연결 생성
     const createPeerConnection = (userId) => {
         const peerConnection = new RTCPeerConnection();
@@ -135,7 +137,7 @@ const MeetingDetail = () => {
             }
         });
 
-        // 수신된 트랙(비디오) 추가
+ // 수신된 트랙(비디오) 추가
         peerConnection.addEventListener("track", (event) => {
             let peerFace = document.getElementById(`peerFace - ${userId}`);
             if (!peerFace) {
@@ -152,7 +154,7 @@ const MeetingDetail = () => {
         return peerConnection;
     };
 
-    // 피어 연결에 트랙 추가
+     // 피어 연결에 트랙 추가
     const addTracksToPeerConnection = (peerConnection) => {
         if (myStreamRef.current) {
             myStreamRef.current.getTracks().forEach((track) => {
@@ -163,6 +165,7 @@ const MeetingDetail = () => {
         }
     };
 
+    
     // 채팅 메시지 전송 핸들러
     const sendMessage = (event) => {
         event.preventDefault();
@@ -172,7 +175,7 @@ const MeetingDetail = () => {
     };
 
     return (
-        <div className="container-fluid">
+      <div className="container-fluid">
             <div id="call">
                 <video id="myFace" autoPlay playsInline height="150px" width="150px"></video>
                 <div id="peerContainer">
